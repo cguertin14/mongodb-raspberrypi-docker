@@ -4,6 +4,13 @@ Deploy recent releases of MongoDB on a Raspberry Pi with these Docker images.
 
 This repo and any code or binaries within it are not explicitly endorsed nor provided by MongoDB Inc.
 
+## Usage
+
+All images are stored [on quay.io](https://quay.io/cguertin14/mongodb-raspberrypi-docker).
+```
+$ docker run --rm -it quay.io/cguertin14/mongodb-raspberrypi-docker:7.0.3
+```
+
 ## Versions
 
 - [_7.0.4_](https://github.com/themattman/mongodb-raspberrypi-docker/releases/tag/r7.0.4-mongodb-raspberrypi-docker-unofficial) [December 10, 2023]
