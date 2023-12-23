@@ -33,17 +33,13 @@ jobs:
       - name: Login to ghcr
         uses: docker/login-action@v2
         with:
-          registry: ghcr.io
-          username: cguertin14
-          password: ${{ secrets.GH_TOKEN }}
+          registry: quay.io
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_ROBOT_TOKEN }}
 
-      - name: Build and Push
-        uses: docker/build-push-action@v4
-        with:
-          context: ${{ steps.prep.outputs.version }}/
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: |
-            ghcr.io/cguertin14/mongodb-raspberrypi-docker:latest
-            ghcr.io/cguertin14/mongodb-raspberrypi-docker:${{ github.sha }}
-            ghcr.io/cguertin14/mongodb-raspberrypi-docker:${{ steps.prep.outputs.version }}
+      - name: Load and push image
+        run: |
+          wget https://github.com/themattman/mongodb-raspberrypi-docker/releases/download/r${{ steps.prep.outputs.version }}-mongodb-raspberrypi-docker-unofficial/mongodb.ce.pi4.r${{ steps.prep.outputs.version }}-mongodb-raspberrypi-docker-unofficial.tar.gz
+          docker load --input mongodb.ce.pi4.r${{ steps.prep.outputs.version }}-mongodb-raspberrypi-docker-unofficial.tar.gz
+          docker image tag mongodb-raspberrypi4-unofficial-r${{ steps.prep.outputs.version }}:latest quay.io/cguertin14/mongodb-raspberrypi-docker:${{ steps.prep.outputs.version }}
+          docker push quay.io/cguertin14/mongodb-raspberrypi-docker:${{ steps.prep.outputs.version }}
